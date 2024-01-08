@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo de Usuário
+model Usuario {
+  id_usuario Int @id @default(autoincrement()) @map("idUsuario")
+  nome String @db.VarChar(50)
+  email String @db.VarChar(50) @unique
+  senha String @db.VarChar(50)
+
+  tweets Tweet[]
+  likes Like[]
+  seguidores Seguidor[]
+  replies Reply[]
+
+  dhrCriacao DateTime @default(now()) @map("dhr_criacao")
+  dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
+
+  @@map("usuario")
+}
+
+// Modelo de Tweet
+model Tweet {
+  id_tweet Int @id @default(autoincrement()) @map("idTweet")
+  conteudo String
+  tipo String
+  id_usuario Int @map("idUsuario")
+  
+  usuario Usuario @relation(fields: [id_usuario], references: [id_usuario])
+  likes Like[]
+  replies Reply[]
+
+  dhrCriacao DateTime @default(now()) @map("dhr_criacao")
+  dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
+
+  @@map("tweet")
+}
+
+// Modelo de Like
+model Like {
+  id_like Int @id @default(autoincrement()) @map("idLike")
+  id_usuario Int @map("idUsuario")
+  id_tweet Int @map("idTweet")
+
+  usuario Usuario @relation(fields: [id_usuario], references: [id_usuario])
+  tweet Tweet @relation(fields: [id_tweet], references: [id_tweet])
+
+  dhrCriacao DateTime @default(now()) @map("dhr_criacao")
+  dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
+
+  @@map("like")
+}
+
+// Modelo de Seguidor
+model Seguidor {
+  id_seguidor Int @id @default(autoincrement()) @map("idSeguidor")
+  id_usuario Int @map("idUsuario")
+  id_seguido Int @map("idSeguido")
+
+  seguido Usuario @relation(fields: [id_seguido], references: [id_usuario])
+
+  dhrCriacao DateTime @default(now()) @map("dhr_criacao")
+  dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
+
+  @@map("seguidor")
+}
+
+// Modelo de Reply
+model Reply {
+  id_reply Int @id @default(autoincrement()) @map("idReply")
+  conteudo String
+  tipo String @default("R")
+  id_tweet_original Int @map("idTweetOriginal")
+  id_usuario Int @map("idUsuario")
+
+  tweet_original Tweet @relation(fields: [id_tweet_original], references: [id_tweet])
+  usuario Usuario @relation(fields: [id_usuario], references: [id_usuario])
+
+  dhrCriacao DateTime @default(now()) @map("dhr_criacao")
+  dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
+
+  @@map("reply")
+}
