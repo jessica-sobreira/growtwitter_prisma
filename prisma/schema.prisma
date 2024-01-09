@@ -10,9 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Modelo de Usuário
+
 model Usuario {
-  id_usuario Int @id @default(autoincrement()) @map("idUsuario")
+  idUsuario String @db.Uuid @id @default(uuid()) @map("id_usuario")
   nome String @db.VarChar(50)
   email String @db.VarChar(50) @unique
   senha String @db.VarChar(50)
@@ -28,14 +28,14 @@ model Usuario {
   @@map("usuario")
 }
 
-// Modelo de Tweet
+
 model Tweet {
-  id_tweet Int @id @default(autoincrement()) @map("idTweet")
+  idTweet String @db.Uuid @id @default(uuid()) @map("id_tweet")
   conteudo String
   tipo String
-  id_usuario Int @map("idUsuario")
-  
-  usuario Usuario @relation(fields: [id_usuario], references: [id_usuario])
+  idUsuario String @db.Uuid @map("id_usuario")
+
+  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario])
   likes Like[]
   replies Reply[]
 
@@ -45,14 +45,14 @@ model Tweet {
   @@map("tweet")
 }
 
-// Modelo de Like
-model Like {
-  id_like Int @id @default(autoincrement()) @map("idLike")
-  id_usuario Int @map("idUsuario")
-  id_tweet Int @map("idTweet")
 
-  usuario Usuario @relation(fields: [id_usuario], references: [id_usuario])
-  tweet Tweet @relation(fields: [id_tweet], references: [id_tweet])
+model Like {
+  idLike String @db.Uuid @id @default(uuid()) @map("id_like")
+  idUsuario String @db.Uuid @map("id_usuario")
+  idTweet String @db.Uuid @map("id_tweet")
+
+  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario])
+  tweet Tweet @relation(fields: [idTweet], references: [idTweet])
 
   dhrCriacao DateTime @default(now()) @map("dhr_criacao")
   dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
@@ -60,13 +60,13 @@ model Like {
   @@map("like")
 }
 
-// Modelo de Seguidor
-model Seguidor {
-  id_seguidor Int @id @default(autoincrement()) @map("idSeguidor")
-  id_usuario Int @map("idUsuario")
-  id_seguido Int @map("idSeguido")
 
-  seguido Usuario @relation(fields: [id_seguido], references: [id_usuario])
+model Seguidor {
+  idSeguidor String @db.Uuid @id @default(uuid()) @map("id_seguidor")
+  idUsuario String @db.Uuid @map("id_usuario")
+  idSeguido String @db.Uuid @map("id_seguido")
+
+  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario])
 
   dhrCriacao DateTime @default(now()) @map("dhr_criacao")
   dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
@@ -74,16 +74,16 @@ model Seguidor {
   @@map("seguidor")
 }
 
-// Modelo de Reply
+
 model Reply {
-  id_reply Int @id @default(autoincrement()) @map("idReply")
+  idReply String @db.Uuid @id @default(uuid()) @map("id_reply")
   conteudo String
   tipo String @default("R")
-  id_tweet_original Int @map("idTweetOriginal")
-  id_usuario Int @map("idUsuario")
+  idTweetOriginal String @db.Uuid @map("id_tweet_original")
+  idUsuario String @db.Uuid @map("id_usuario")
 
-  tweet_original Tweet @relation(fields: [id_tweet_original], references: [id_tweet])
-  usuario Usuario @relation(fields: [id_usuario], references: [id_usuario])
+  tweetOriginal Tweet @relation(fields: [idTweetOriginal], references: [idTweet])
+  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario])
 
   dhrCriacao DateTime @default(now()) @map("dhr_criacao")
   dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
