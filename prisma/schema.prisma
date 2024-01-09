@@ -14,6 +14,7 @@ datasource db {
 model Usuario {
   idUsuario String @db.Uuid @id @default(uuid()) @map("id_usuario")
   nome String @db.VarChar(50)
+  username String @db.VarChar(60)
   email String @db.VarChar(50) @unique
   senha String @db.VarChar(50)
 
