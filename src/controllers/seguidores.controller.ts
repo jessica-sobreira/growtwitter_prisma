@@ -58,13 +58,13 @@ export class SeguidorController {
                 });
             }
 
-            const follower = new SeguidorModel(idSeguido);
+            const seguidor = new SeguidorModel(idSeguido);
 
             const result = await repository.seguidor.create({
                 data: {
-                    id: follower.id,
+                    id: seguidor.id,
                     idUsuario: usuario.id,
-                    idSeguido: follower.idSeguido,
+                    idSeguido: seguidor.idSeguido,
                 }
             });
 
