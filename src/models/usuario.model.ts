@@ -7,6 +7,7 @@ export class UsuarioModel {
         public username: string,
         public email: string,
         public senha: string,
+        public token?: string,
     ) {
         this.id = randomUUID(); 
     }

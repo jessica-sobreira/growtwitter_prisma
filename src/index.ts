@@ -13,16 +13,16 @@ const tweetController = new TweetController();
 
 
 //rotas usuario
-app.post("/criar-usuario", usuarioController.criarUsuario);
-app.get("/obter-usuario/:idUsuario", usuarioController.obterUsuario);
-app.put("/atualizar-usuario", usuarioController.atualizarUsuario);
-app.delete("/deletar-usuario/:idUsuario", usuarioController.deletarUsuario);
-app.get("/listar-usuarios", usuarioController.listarUsuarios);
+app.post("/usuario", usuarioController.criarUsuario);
+app.get("/usuario/:id", usuarioController.obterUsuario);
+app.put("/usuario", usuarioController.atualizarUsuario);
+app.delete("/usuario/:id", usuarioController.deletarUsuario);
+app.get("/usuarios", usuarioController.listarUsuarios);
 
 // rotas tweets
-app.post("/criar-tweet", tweetController.criarTweet);
-app.get("/usuario/:idUsuario/tweet", tweetController.listarTweets);
-app.put("/atualizar-tweet/:idTweet", tweetController.atualizarTweet);
+app.post("/tweet", tweetController.criarTweet);
+app.get("/usuario/:id/tweet", tweetController.listarTweets);
+app.put("/tweet/:id", tweetController.atualizarTweet);
 
 
 app.listen(3005, () => {

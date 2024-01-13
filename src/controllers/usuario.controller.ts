@@ -35,11 +35,11 @@ export class UsuarioController {
 
     public async obterUsuario(req: Request, res: Response) {
         try{
-            const { idUsuario } = req.params;
+            const { id } = req.params;
 
             const usuarioID = await repository.usuario.findUnique({
                 where: {
-                    idUsuario,
+                    id,
                 },
             });
 
@@ -62,7 +62,7 @@ export class UsuarioController {
 //atualizar um usuario
     public async atualizarUsuario(req: Request, res: Response) {
         try{
-            const { idUsuario } = req.params;
+            const { id } = req.params;
             const { nome } = req.body;
 
             if( !nome ){
@@ -74,7 +74,7 @@ export class UsuarioController {
 
             const usuarioExiste = await repository.usuario.findUnique({
                 where: {
-                    idUsuario,
+                    id,
                 },
             });
 
@@ -84,7 +84,7 @@ export class UsuarioController {
 
             const result = await repository.usuario.update({
                 where: {
-                    idUsuario,
+                    id,
                 },
                 data: {
                     nome,
@@ -105,11 +105,11 @@ export class UsuarioController {
     //deletar um usuario
     public async deletarUsuario(req: Request, res: Response) {
         try{
-            const { idUsuario } = req.params;
+            const { id } = req.params;
 
             const usuarioExiste = await repository.usuario.findUnique({
                 where: {
-                    idUsuario,
+                    id,
                 },
             });
 
@@ -119,7 +119,7 @@ export class UsuarioController {
 
             await repository.usuario.delete({
                 where: {
-                    idUsuario,
+                    id,
                 },
             });
             return res.status(200).send({

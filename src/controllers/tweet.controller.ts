@@ -8,7 +8,7 @@ import { TweetModel } from "../models/tweet.model";
 export class TweetController {
     public async criarTweet(req: Request, res: Response) {
         try{
-            const { idTweet } = req.params;
+            const { id } = req.params;
             const { conteudo, tipo } = req.body;
             const { authorization } = req.headers;
 
@@ -23,24 +23,31 @@ export class TweetController {
                 });
             }
 
-            const usuarioExiste = await repository.usuario.findUnique({
+            const usuario = await repository.usuario.findUnique({
                 where: {
-                    idUsuario: authorization,
+                    id: authorization,
                 },
             });
 
-            if(!usuarioExiste){
-                return erroNaoEncontrado(res, "Aluno");
+            if(!usuario){
+                return erroNaoEncontrado(res, "Usuario");
+            }
+
+            if(usuario.token !== authorization){
+                return res.status(401).send({
+                    ok: false,
+                    message: "Token de autenticação inválido",
+                });
             }
 
             const tweet = new TweetModel(conteudo, tipo);
 
             const result = await repository.tweet.create({
                 data: {
-                    idTweet: tweet.id,
+                    id: tweet.id,
                     conteudo: tweet.conteudo,
                     tipo: tweet.tipo,
-                    idUsuario: authorization,
+                    idUsuario: usuario.id,
                 }
             });
 
@@ -58,11 +65,11 @@ export class TweetController {
     //listar tweets de um usuario
     public async listarTweets(req: Request, res: Response) {
         try{
-            const { idUsuario } = req.params;
+            const { id } = req.params;
 
             const usuario = await repository.usuario.findUnique({
                 where: {
-                    idUsuario,
+                    id,
                 },
                 include: {
                     tweets: true,
@@ -87,12 +94,12 @@ export class TweetController {
     //atualizar tweet
     public async atualizarTweet(req: Request, res: Response) {
         try{
-            const { idUsuario, idTweet } = req.params;
+            const { id } = req.params;
             const { conteudo } = req.body;
 
             const usuario = await repository.usuario.findUnique({
                 where: {
-                    idUsuario,
+                    id,
                 },
             });
 
@@ -106,7 +113,7 @@ export class TweetController {
 
             const tweet = await repository.tweet.findUnique({
                 where: {
-                    idTweet,
+                    id,
                 },
             });
 
@@ -116,7 +123,7 @@ export class TweetController {
 
             const result = await repository.tweet.update({
                 where: {
-                    idTweet,
+                    id,
                 },
                 data: {
                     conteudo,

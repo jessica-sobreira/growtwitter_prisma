@@ -12,11 +12,10 @@ datasource db {
 
 
 model Usuario {
-  idUsuario String @db.Uuid @id @default(uuid()) @map("id_usuario")
+  id String @db.Uuid @id @default(uuid()) 
   nome String @db.VarChar(50)
   email String @db.VarChar(50) @unique
   senha String @db.VarChar(50)
-
   token String?
 
   tweets Tweet[]
@@ -32,12 +31,12 @@ model Usuario {
 
 
 model Tweet {
-  idTweet String @db.Uuid @id @default(uuid()) @map("id_tweet")
+  id String @db.Uuid @id @default(uuid()) 
   conteudo String
   tipo String
   idUsuario String @db.Uuid @map("id_usuario")
 
-  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario])
+  usuario Usuario @relation(fields: [idUsuario], references: [id])
   likes Like[]
   replies Reply[]
 
@@ -49,12 +48,12 @@ model Tweet {
 
 
 model Like {
-  idLike String @db.Uuid @id @default(uuid()) @map("id_like")
+  id String @db.Uuid @id @default(uuid()) 
   idUsuario String @db.Uuid @map("id_usuario")
   idTweet String @db.Uuid @map("id_tweet")
 
-  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario])
-  tweet Tweet @relation(fields: [idTweet], references: [idTweet])
+  usuario Usuario @relation(fields: [idUsuario], references: [id])
+  tweet Tweet @relation(fields: [idTweet], references: [id])
 
   dhrCriacao DateTime @default(now()) @map("dhr_criacao")
   dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
@@ -64,11 +63,11 @@ model Like {
 
 
 model Seguidor {
-  idSeguidor String @db.Uuid @id @default(uuid()) @map("id_seguidor")
+  id String @db.Uuid @id @default(uuid()) 
   idUsuario String @db.Uuid @map("id_usuario")
   idSeguido String @db.Uuid @map("id_seguido")
 
-  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario])
+  usuario Usuario @relation(fields: [idUsuario], references: [id])
 
   dhrCriacao DateTime @default(now()) @map("dhr_criacao")
   dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
@@ -78,14 +77,14 @@ model Seguidor {
 
 
 model Reply {
-  idReply String @db.Uuid @id @default(uuid()) @map("id_reply")
+  id String @db.Uuid @id @default(uuid())
   conteudo String
   tipo String @default("R")
   idTweetOriginal String @db.Uuid @map("id_tweet_original")
   idUsuario String @db.Uuid @map("id_usuario")
 
-  tweetOriginal Tweet @relation(fields: [idTweetOriginal], references: [idTweet])
-  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario])
+  tweetOriginal Tweet @relation(fields: [idTweetOriginal], references: [id])
+  usuario Usuario @relation(fields: [idUsuario], references: [id])
 
   dhrCriacao DateTime @default(now()) @map("dhr_criacao")
   dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
