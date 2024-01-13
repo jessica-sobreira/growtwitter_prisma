@@ -6,6 +6,7 @@ import { TweetController } from "./controllers/tweet.controller";
 import { AuthController } from "./controllers/auth.controllers";
 import { LikeController } from "./controllers/like.controller";
 import { SeguidorController } from "./controllers/seguidores.controller";
+import { validarAcesso } from "./middlewares/usuario.middleware";
 
 const app = express();
 app.use(express.json());
@@ -25,18 +26,18 @@ app.delete("/usuario/:id", usuarioController.deletarUsuario);
 app.get("/usuarios", usuarioController.listarUsuarios);
 
 // rotas tweets
-app.post("/tweet", tweetController.criarTweet);
-app.get("/usuario/:id/tweet", tweetController.listarTweets);
-app.put("/tweet/:id", tweetController.atualizarTweet);
-app.delete("/tweet/:id", tweetController.deletarTweet);
+app.post("/tweet", [validarAcesso], tweetController.criarTweet);
+app.get("/usuario/:id/tweet", [validarAcesso], tweetController.listarTweets);
+app.put("/tweet/:id", [validarAcesso], tweetController.atualizarTweet);
+app.delete("/tweet/:id", [validarAcesso], tweetController.deletarTweet);
 
 // rotas likes
-app.post("/like", likeController.darLike);
-app.delete("/like/:idTweet/:idUsuario", likeController.removerLike);
+app.post("/like", [validarAcesso], likeController.darLike);
+app.delete("/like/:idTweet/:idUsuario", [validarAcesso], likeController.removerLike);
 
 //rotas seguidores
-app.post("/seguidor", seguidorController.seguirUsuario);
-app.get("/seguidores/:id", seguidorController.listarSeguidores);
+app.post("/seguidor", [validarAcesso], seguidorController.seguirUsuario);
+app.get("/seguidores/:id", [validarAcesso], seguidorController.listarSeguidores);
 
 
 //rota para autenticar
