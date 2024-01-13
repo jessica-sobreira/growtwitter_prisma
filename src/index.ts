@@ -1,29 +1,24 @@
 import express from "express";
 import cors from "cors";
 
-import { UsuarioController } from "./controllers/usuario.controller";
 import { TweetController } from "./controllers/tweet.controller";
 import { AuthController } from "./controllers/auth.controllers";
 import { LikeController } from "./controllers/like.controller";
 import { SeguidorController } from "./controllers/seguidores.controller";
 import { validarAcesso } from "./middlewares/usuario.middleware";
+import { usuarioRoutes } from "./routes/usuario.routes";
+
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const usuarioController = new UsuarioController();
 const tweetController = new TweetController();
 const authController = new AuthController();
 const likeController = new LikeController();
 const seguidorController = new SeguidorController();
 
-//rotas usuario
-app.post("/usuario", usuarioController.criarUsuario);
-app.get("/usuario/:id", usuarioController.obterUsuario);
-app.put("/usuario", usuarioController.atualizarUsuario);
-app.delete("/usuario/:id", usuarioController.deletarUsuario);
-app.get("/usuarios", usuarioController.listarUsuarios);
+app.use("/usuario", usuarioRoutes());
 
 // rotas tweets
 app.post("/tweet", [validarAcesso], tweetController.criarTweet);
