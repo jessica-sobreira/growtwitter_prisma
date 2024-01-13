@@ -5,6 +5,7 @@ import { UsuarioController } from "./controllers/usuario.controller";
 import { TweetController } from "./controllers/tweet.controller";
 import { AuthController } from "./controllers/auth.controllers";
 import { LikeController } from "./controllers/like.controller";
+import { SeguidorController } from "./controllers/seguidores.controller";
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,7 @@ const usuarioController = new UsuarioController();
 const tweetController = new TweetController();
 const authController = new AuthController();
 const likeController = new LikeController();
+const seguidorController = new SeguidorController();
 
 //rotas usuario
 app.post("/usuario", usuarioController.criarUsuario);
@@ -31,6 +33,11 @@ app.delete("/tweet/:id", tweetController.deletarTweet);
 // rotas likes
 app.post("/like", likeController.darLike);
 app.delete("/like/:idTweet/:idUsuario", likeController.removerLike);
+
+//rotas seguidores
+app.post("/seguidor", seguidorController.seguirUsuario);
+app.get("/seguidores/:id", seguidorController.listarSeguidores);
+
 
 //rota para autenticar
 app.post("/login", authController.login);
