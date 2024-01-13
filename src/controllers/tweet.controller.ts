@@ -3,8 +3,6 @@ import { camposNaoInformados, erroNaoEncontrado, erroServidor } from "../util/re
 import repository from "../database/prisma.repository";
 import { TweetModel } from "../models/tweet.model";
 
-
-
 export class TweetController {
     public async criarTweet(req: Request, res: Response) {
         try{
@@ -19,13 +17,13 @@ export class TweetController {
             if(!authorization){
                 return res.status(401).send({
                     ok: false,
-                    message: "Token de autenticação ausente",
+                    message: "Token de autenticação inválido",
                 });
             }
 
             const usuario = await repository.usuario.findUnique({
                 where: {
-                    id: authorization,
+                    id,
                 },
             });
 
@@ -54,7 +52,7 @@ export class TweetController {
             return res.status(201).send({
                 ok: true,
                 message: "Tweet criado com sucesso!",
-                data: result
+                data: result,
             });
         }
         catch(error: any) {
@@ -141,4 +139,35 @@ export class TweetController {
         }
     }
 
+    //deletar tweet
+    public async deletarTweet(req: Request, res: Response) {
+        try{
+            const { id } = req.params;
+
+            const tweet = await repository.tweet.findUnique({
+                where: {
+                    id,
+                },
+            });
+
+            if(!tweet){
+                return erroNaoEncontrado(res, "Tweet");
+            }
+
+            await repository.tweet.delete({
+                where: {
+                    id,
+                },
+            });
+
+            return res.status(200).send({
+                ok: true,
+                message: "Tweet deletado com sucesso!",
+            });
+
+            }
+        catch(error: any) {
+            return erroServidor(res, error);
+        }
+    }
 }
