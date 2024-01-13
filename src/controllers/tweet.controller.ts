@@ -134,6 +134,4 @@ export class TweetController {
         }
     }
 
-    //deletar tweet
-    
 }
