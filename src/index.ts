@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 import { validarAcesso } from "./middlewares/usuario.middleware";
 import { usuarioRoutes } from "./routes/usuario.routes";
@@ -21,7 +23,7 @@ app.use("/reply", [validarAcesso], replyRoutes);
 app.use("/auth", authRoutes());
 
 
-app.listen(3005, () => {
+app.listen(process.env.PORT, () => {
     console.log("API está rodando!");
     
 });
