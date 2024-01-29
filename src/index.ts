@@ -19,7 +19,7 @@ app.use("/usuario", usuarioRoutes());
 app.use("/tweet", [validarAcesso], tweetRoutes());
 app.use("/like", [validarAcesso], likeRoutes());
 app.use("/seguidor", [validarAcesso], seguidorRoutes());
-app.use("/reply", [validarAcesso], replyRoutes);
+app.use("/reply", [validarAcesso], replyRoutes());
 app.use("/auth", authRoutes());
 
 

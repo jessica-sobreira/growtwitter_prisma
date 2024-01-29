@@ -32,8 +32,8 @@ model Usuario {
 
 model Tweet {
   id String @db.Uuid @id @default(uuid()) 
-  conteudo String
-  tipo String
+  conteudo String 
+  tipo String 
   idUsuario String @db.Uuid @map("id_usuario")
 
   usuario Usuario @relation(fields: [idUsuario], references: [id])

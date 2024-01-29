@@ -9,7 +9,7 @@ export function authRoutes(){
     const authController = new AuthController();
 
     //rota para autenticar
-    router.post("/login", authController.login);
+    router.post("/auth", authController.login);
 
     return router;
 }
