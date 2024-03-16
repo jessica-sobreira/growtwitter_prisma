@@ -9,10 +9,10 @@ export function usuarioRoutes(){
     const usuarioController = new UsuarioController();
 
     //rotas usuario
-    router.post("/usuario", usuarioController.criarUsuario);
-    router.get("/usuario/:id", usuarioController.obterUsuario);
-    router.put("/usuario", usuarioController.atualizarUsuario);
-    router.delete("/usuario/:id", usuarioController.deletarUsuario);
+    router.post("/", usuarioController.criarUsuario);
+    router.get("/:id", usuarioController.obterUsuario);
+    router.put("/", usuarioController.atualizarUsuario);
+    router.delete("/:id", usuarioController.deletarUsuario);
     router.get("/usuarios", usuarioController.listarUsuarios);
 
     return router;

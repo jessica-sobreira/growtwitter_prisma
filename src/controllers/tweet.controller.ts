@@ -95,15 +95,6 @@ export class TweetController {
             const { id } = req.params;
             const { conteudo } = req.body;
 
-            const usuario = await repository.usuario.findUnique({
-                where: {
-                    id,
-                },
-            });
-
-            if(!usuario){
-                return erroNaoEncontrado(res, "Usuario");
-            }
 
             if(!conteudo){
                 return camposNaoInformados(res);
