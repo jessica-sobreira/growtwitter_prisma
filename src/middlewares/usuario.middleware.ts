@@ -3,7 +3,9 @@ import { NextFunction, Request, Response } from "express";
 export function validarAcesso(req: Request, res: Response, next: NextFunction) {
     try {
 
-        if(!req.headers.authorization) {
+        const token = req.headers.authorization;
+
+        if(!token) {
             return res.status(401).send({
                 ok: false,
                 message: "Token ausente",
