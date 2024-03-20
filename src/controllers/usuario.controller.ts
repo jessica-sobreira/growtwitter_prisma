@@ -7,7 +7,6 @@ import repository from "../database/prisma.repository";
 export class UsuarioController {
     public async criarUsuario(req: Request, res: Response) {
         try{
-
             const { nome, username, email, senha } = req.body;
 
             if(!nome || !username || !email || !senha){
@@ -30,9 +29,6 @@ export class UsuarioController {
         }
     }
 
-
-//obter usuario pelo ID
-
     public async obterUsuario(req: Request, res: Response) {
         try{
             const { id } = req.params;
@@ -49,7 +45,7 @@ export class UsuarioController {
 
             return res.status(200).send({
                 ok: true,
-                message: "Usuario encontrado com sucesso!",
+                message: "Usuário encontrado com sucesso!",
                 data: usuarioID
             });
         }
@@ -59,7 +55,6 @@ export class UsuarioController {
     }
 
 
-//atualizar um usuario
     public async atualizarUsuario(req: Request, res: Response) {
         try{
             const { id } = req.params;
@@ -102,7 +97,6 @@ export class UsuarioController {
         }
     }
 
-    //deletar um usuario
     public async deletarUsuario(req: Request, res: Response) {
         try{
             const { id } = req.params;
@@ -132,14 +126,14 @@ export class UsuarioController {
         }
     }
 
-    //obter todos os usuarios
+
     public async listarUsuarios(req: Request, res: Response) {
         try {
             const usuarios = await repository.usuario.findMany();
 
             return res.status(200).send({
                 ok: true,
-                message: "Todos os usuarios",
+                message: "Todos os usuários",
                 data: usuarios,
             });
 
@@ -148,4 +142,3 @@ export class UsuarioController {
         }
     }
 }
-

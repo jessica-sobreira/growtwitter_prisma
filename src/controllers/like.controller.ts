@@ -4,8 +4,7 @@ import repository from "../database/prisma.repository";
 
 export class LikeController {
     public async darLike(req: Request, res: Response) {
-        try{
-
+        try {
             const { idTweet, idUsuario } = req.params;
 
             const tweet = await repository.tweet.findUnique({
@@ -14,37 +13,41 @@ export class LikeController {
                 },
             });
 
-            if(!tweet){
+            if (!tweet) {
                 return erroNaoEncontrado(res, "Tweet");
             }
 
-            const like = await repository.like.findFirst({
+            const existingLike = await repository.like.findFirst({
                 where: {
                     idTweet,
                     idUsuario,
                 },
             });
-            
+
+            if (existingLike) {
+                return res.status(400).send({
+                    ok: false,
+                    message: "Usuário já deu like neste tweet",
+                });
+            }
 
             await repository.like.create({
                 data: {
-                    id: like?.id,
                     idTweet,
                     idUsuario,
-                }
+                },
             });
 
             return res.status(201).send({
                 ok: true,
                 message: "Like adicionado com sucesso!",
             });
-        }
-        catch(error: any) {
+        } catch (error: any) {
             return erroServidor(res, error);
         }
     }
 
-    //remover like
+
     public async removerLike(req: Request, res: Response) {
         try {
             const { idTweet, idUsuario } = req.params;
@@ -75,4 +78,3 @@ export class LikeController {
         }
     }
 }
-

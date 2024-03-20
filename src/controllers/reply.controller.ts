@@ -4,7 +4,7 @@ import repository from "../database/prisma.repository";
 import { ReplyModel } from "../models/reply.model";
 
 export class ReplyController {
-    // Criar reply em um tweet
+
     public async criarReply(req: Request, res: Response) {
         try {
             const { id } = req.params;
@@ -53,12 +53,11 @@ export class ReplyController {
 
             const reply = new ReplyModel(conteudo, idTweetOriginal);
 
-            const result = await repository.reply.create({
+            const result = await repository.tweet.create({
                 data: {
                     id: reply.id,
                     conteudo: reply.conteudo,
-                    tipo: 'R',
-                    idTweetOriginal: reply.idTweetOriginal,
+                    tipo: "Reply",
                     idUsuario: usuario.id,
                 }
             });
@@ -73,12 +72,11 @@ export class ReplyController {
         }
     }
 
-    // Listar replies de um tweet
+
     public async listarReplies(req: Request, res: Response) {
         try {
             const { id } = req.params;
 
-            // Verificar se o tweet existe
             const tweet = await repository.tweet.findUnique({
                 where: {
                     id,
@@ -89,9 +87,10 @@ export class ReplyController {
                 return erroNaoEncontrado(res, "Tweet");
             }
 
-            const replies = await repository.reply.findMany({
+            const replies = await repository.tweet.findMany({
                 where: {
-                    idTweetOriginal: id,
+                    id: id,
+
                 },
             });
 
@@ -105,12 +104,12 @@ export class ReplyController {
         }
     }
 
-    // Deletar reply
+
     public async deletarReply(req: Request, res: Response) {
         try {
             const { id } = req.params;
 
-            const reply = await repository.reply.findUnique({
+            const reply = await repository.tweet.findUnique({
                 where: {
                     id,
                 },
@@ -120,7 +119,7 @@ export class ReplyController {
                 return erroNaoEncontrado(res, "Reply");
             }
 
-            await repository.reply.delete({
+            await repository.tweet.delete({
                 where: {
                     id,
                 },

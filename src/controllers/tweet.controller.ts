@@ -5,16 +5,16 @@ import { TweetModel } from "../models/tweet.model";
 
 export class TweetController {
     public async criarTweet(req: Request, res: Response) {
-        try{
+        try {
             const { id } = req.params;
             const { conteudo, tipo } = req.body;
             const { authorization } = req.headers;
 
-            if(!conteudo || !tipo){
+            if (!conteudo || !tipo) {
                 return camposNaoInformados(res);
             }
 
-            if(!authorization){
+            if (!authorization) {
                 return res.status(401).send({
                     ok: false,
                     message: "Token de autenticação inválido",
@@ -27,76 +27,69 @@ export class TweetController {
                 },
             });
 
-            if(!usuario){
+            if (!usuario) {
                 return erroNaoEncontrado(res, "Usuario");
             }
 
-            if(usuario.token !== authorization){
+            if (usuario.token !== authorization) {
                 return res.status(401).send({
                     ok: false,
                     message: "Token de autenticação inválido",
                 });
             }
 
-            const tweet = new TweetModel(conteudo, tipo);
-
-            const result = await repository.tweet.create({
+            const tweet = await repository.tweet.create({
                 data: {
-                    id: tweet.id,
-                    conteudo: tweet.conteudo,
-                    tipo: tweet.tipo,
-                    idUsuario: usuario.id,
+                    conteudo,
+                    tipo,
+                    usuario: {
+                        connect: {
+                            id: usuario.id
+                        }
+                    }
                 }
             });
 
             return res.status(201).send({
                 ok: true,
                 message: "Tweet criado com sucesso!",
-                data: result,
+                data: tweet,
             });
-        }
-        catch(error: any) {
+        } catch (error: any) {
             return erroServidor(res, error);
         }
     }
 
-    //listar tweets de um usuario
     public async listarTweets(req: Request, res: Response) {
-        try{
+        try {
             const { id } = req.params;
 
-            const usuario = await repository.usuario.findUnique({
+            const tweets = await repository.tweet.findMany({
                 where: {
-                    id,
-                },
-                include: {
-                    tweets: true,
+                    idUsuario: id,
                 },
             });
-            
-            if(!usuario){
-                return erroNaoEncontrado(res, "Usuario");
+
+            if (!tweets) {
+                return erroNaoEncontrado(res, "Tweets");
             }
 
             return res.status(200).send({
                 ok: true,
                 message: "Tweets encontrados com sucesso!",
-                data: usuario.tweets,
+                data: tweets,
             });
-        }
-        catch(error: any) {
+        } catch (error: any) {
             return erroServidor(res, error);
         }
     }
 
-    //atualizar tweet
     public async atualizarTweet(req: Request, res: Response) {
-        try{
+        try {
             const { id } = req.params;
             const { conteudo } = req.body;
 
-
-            if(!conteudo){
+            if (!conteudo) {
                 return camposNaoInformados(res);
             }
 
@@ -106,7 +99,7 @@ export class TweetController {
                 },
             });
 
-            if(!tweet){
+            if (!tweet) {
                 return erroNaoEncontrado(res, "Tweet");
             }
 
@@ -124,15 +117,13 @@ export class TweetController {
                 message: "Tweet atualizado com sucesso!",
                 data: result,
             });
-        }
-        catch(error: any) {
+        } catch (error: any) {
             return erroServidor(res, error);
         }
     }
 
-    //deletar tweet
     public async deletarTweet(req: Request, res: Response) {
-        try{
+        try {
             const { id } = req.params;
 
             const tweet = await repository.tweet.findUnique({
@@ -141,7 +132,7 @@ export class TweetController {
                 },
             });
 
-            if(!tweet){
+            if (!tweet) {
                 return erroNaoEncontrado(res, "Tweet");
             }
 
@@ -155,9 +146,7 @@ export class TweetController {
                 ok: true,
                 message: "Tweet deletado com sucesso!",
             });
-
-            }
-        catch(error: any) {
+        } catch (error: any) {
             return erroServidor(res, error);
         }
     }

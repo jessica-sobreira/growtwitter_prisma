@@ -5,7 +5,7 @@ import { SeguidorModel } from "../models/seguidor.model";
 
 
 export class SeguidorController {
-    // Seguir um usuário
+
     public async seguirUsuario(req: Request, res: Response) {
         try {
             const { id } = req.params;
@@ -40,7 +40,7 @@ export class SeguidorController {
                 });
             }
 
-            // Verificar se o usuário a ser seguido existe
+
             const usuarioSeguido = await repository.usuario.findUnique({
                 where: {
                     id: idSeguido,
@@ -58,7 +58,7 @@ export class SeguidorController {
                 });
             }
 
-            const seguidor = new SeguidorModel(idSeguido);
+            const seguidor = new SeguidorModel(idSeguido, id);
 
             const result = await repository.seguidor.create({
                 data: {
@@ -78,7 +78,6 @@ export class SeguidorController {
         }
     }
 
-    // Listar seguidores de um usuário
     public async listarSeguidores(req: Request, res: Response) {
         try {
             const { id } = req.params;
