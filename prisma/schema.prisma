@@ -1,93 +1,75 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+  // This is your Prisma schema file,
+  // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 
-model Usuario {
-  id String @db.Uuid @id @default(uuid()) 
-  nome String @db.VarChar(50)
-  email String @db.VarChar(50) @unique
-  senha String @db.VarChar(50)
-  token String?
+  generator client {
+    provider = "prisma-client-js"
+  }
 
-  tweets Tweet[]
-  likes Like[]
-  seguidores Seguidor[]
-  replies Reply[]
-
-  dhrCriacao DateTime @default(now()) @map("dhr_criacao")
-  dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
-
-  @@map("usuario")
-}
+  datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+  }
 
 
-model Tweet {
-  id String @db.Uuid @id @default(uuid()) 
-  conteudo String 
-  tipo String 
-  idUsuario String @db.Uuid @map("id_usuario")
+  model Usuario {
+    id String @id @default(uuid())
+    nome String @db.VarChar(50)
+    email String @unique @db.VarChar(50)
+    senha String @db.VarChar(50)
+    token String?
+    tweets Tweet[]
+    likes Like[]
+    seguidores Seguidor[]
+    seguidos Seguidor[] @relation("Seguidores")
 
-  usuario Usuario @relation(fields: [idUsuario], references: [id])
-  likes Like[]
-  replies Reply[]
+    dhrCriacao DateTime @default(now()) @map("dhr_criacao")
+    dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
 
-  dhrCriacao DateTime @default(now()) @map("dhr_criacao")
-  dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
+    @@map("usuario")
+  }
 
-  @@map("tweet")
-}
+  model Seguidor {
+    id String @id @default(uuid())
+    idUsuario String @map("id_usuario")
+    idSeguido String @map("id_seguido")
+    usuario Usuario @relation(fields: [idUsuario], references: [id])
+    seguido Usuario @relation("Seguidores", fields: [idSeguido], references: [id])
 
+    dhrCriacao DateTime @default(now()) @map("dhr_criacao")
+    dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
 
-model Like {
-  id String @db.Uuid @id @default(uuid()) 
-  idUsuario String @db.Uuid @map("id_usuario")
-  idTweet String @db.Uuid @map("id_tweet")
+    @@map("seguidor")
+  }
 
-  usuario Usuario @relation(fields: [idUsuario], references: [id])
-  tweet Tweet @relation(fields: [idTweet], references: [id])
+  enum Tipo {
+    Normal
+    Reply
+  }
 
-  dhrCriacao DateTime @default(now()) @map("dhr_criacao")
-  dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
+  model Tweet {
+    id String @id @default(uuid())
+    conteudo String
+    tipo Tipo
+    idUsuario String @map("id_usuario")
+    usuario Usuario @relation(fields: [idUsuario], references: [id])
+    likes Like[]
 
-  @@map("like")
-}
+    dhrCriacao DateTime @default(now()) @map("dhr_criacao")
+    dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
 
+    @@map("tweet")
+  }
 
-model Seguidor {
-  id String @db.Uuid @id @default(uuid()) 
-  idUsuario String @db.Uuid @map("id_usuario")
-  idSeguido String @db.Uuid @map("id_seguido")
+  model Like {
+    id String @id @default(uuid())
+    idUsuario String @map("id_usuario")
+    idTweet String @map("id_tweet")
+    usuario Usuario @relation(fields: [idUsuario], references: [id])
+    tweet Tweet @relation(fields: [idTweet], references: [id])
 
-  usuario Usuario @relation(fields: [idUsuario], references: [id])
+    dhrCriacao DateTime @default(now()) @map("dhr_criacao")
+    dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
 
-  dhrCriacao DateTime @default(now()) @map("dhr_criacao")
-  dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
-
-  @@map("seguidor")
-}
-
-
-model Reply {
-  id String @db.Uuid @id @default(uuid())
-  conteudo String
-  tipo String @default("R")
-  idTweetOriginal String @db.Uuid @map("id_tweet_original")
-  idUsuario String @db.Uuid @map("id_usuario")
-
-  tweetOriginal Tweet @relation(fields: [idTweetOriginal], references: [id])
-  usuario Usuario @relation(fields: [idUsuario], references: [id])
-
-  dhrCriacao DateTime @default(now()) @map("dhr_criacao")
-  dhrAtualizacao DateTime @updatedAt @map("dhr_atualizacao")
-
-  @@map("reply")
-}
+    @@map("like")
+  }
