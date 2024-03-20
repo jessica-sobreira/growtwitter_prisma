@@ -3,11 +3,11 @@ import { randomUUID } from "crypto";
 export class ReplyModel {
     public id: string;
     public conteudo: string;
-    public idTweetOriginal: string;
+    public tweetOriginalId: string; 
 
-    constructor(conteudo: string, idTweetOriginal: string) {
+    constructor(conteudo: string, tweetOriginalId: string) {
         this.id = randomUUID();
         this.conteudo = conteudo;
-        this.idTweetOriginal = idTweetOriginal;
+        this.tweetOriginalId = tweetOriginalId;
     }
 }
