@@ -11,11 +11,9 @@ export function usuarioRoutes(){
     //rotas usuario
     router.post("/", usuarioController.criarUsuario);
     router.get("/:id", usuarioController.obterUsuario);
-    router.put("/", usuarioController.atualizarUsuario);
+    router.put("/:id", usuarioController.atualizarUsuario); 
     router.delete("/:id", usuarioController.deletarUsuario);
-    router.get("/usuarios", usuarioController.listarUsuarios);
-
+    router.get("/", usuarioController.listarUsuarios); 
+    
     return router;
-
-
 }

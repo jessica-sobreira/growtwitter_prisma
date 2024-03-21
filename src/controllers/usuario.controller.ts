@@ -7,13 +7,13 @@ import repository from "../database/prisma.repository";
 export class UsuarioController {
     public async criarUsuario(req: Request, res: Response) {
         try{
-            const { nome, username, email, senha } = req.body;
+            const { nome, email, senha } = req.body;
 
-            if(!nome || !username || !email || !senha){
+            if(!nome || !email || !senha){
                 return camposNaoInformados(res);
             }
 
-            const usuario = new UsuarioModel(nome, username, email, senha);
+            const usuario = new UsuarioModel(nome, email, senha);
 
             const result = await repository.usuario.create({
                 data: usuario,

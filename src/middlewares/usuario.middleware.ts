@@ -1,25 +1,19 @@
-import { NextFunction, Request, Response } from "express";
+// import { Request, Response, NextFunction } from "express";
+// import jwt from "jsonwebtoken";
 
-export function validarAcesso(req: Request, res: Response, next: NextFunction) {
-    try {
+// export function authenticateToken(req: Request, res: Response, next: NextFunction) {
+//     const authHeader = req.headers['authorization'];
+//     const token = authHeader && authHeader.split(' ')[1];
+    
+//     if (token == null) {
+//         return res.sendStatus(401);
+//     }
 
-        const token = req.headers.authorization;
-
-        if(!token) {
-            return res.status(401).send({
-                ok: false,
-                message: "Token ausente",
-            });
-        }
-
-        
-
-        next();
-
-    } catch (error: any) {
-        return res.status(500).send({
-            ok: false,
-            message: error.toString(),
-        });
-    }
-}
+//     jwt.verify(token, process.env.JWT_SECRET || 'default_secret', (err: any, user: any) => {
+//         if (err) {
+//             return res.sendStatus(403);
+//         }
+//         req.user = user;
+//         next();
+//     });
+// }
