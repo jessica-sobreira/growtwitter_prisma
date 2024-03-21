@@ -1,80 +1,80 @@
 import { Request, Response } from "express";
-import { camposNaoInformados, erroNaoEncontrado, erroServidor } from "../util/response.helper";
-import { UsuarioModel } from "../models/usuario.model";
+import { UsuarioService } from "../services/usuario.service";
 import repository from "../database/prisma.repository";
 
-
 export class UsuarioController {
+
     public async criarUsuario(req: Request, res: Response) {
-        try{
+        try {
             const { nome, email, senha } = req.body;
 
-            if(!nome || !email || !senha){
-                return camposNaoInformados(res);
+            if (!nome) {
+                return res.status(400).send({
+                    ok: false,
+                    message: "Nome não foi informado",
+                });
             }
 
-            const usuario = new UsuarioModel(nome, email, senha);
 
-            const result = await repository.usuario.create({
-                data: usuario,
+            const usuarioService = new UsuarioService();
+
+            const result = await usuarioService.criar({
+                nome,
+                email,
+                senha,
             });
 
-            return res.status(201).send({
-                ok: true,
-                message: "Usuário criado com sucesso!",
-                data: result
-            });       
+            return res.status(201).send(result);
         } catch (error: any) {
-            return erroServidor(res, error);
+            return res.status(500).send({
+                ok: false,
+                message: error.toString(),
+            });
         }
     }
 
+    // Obter um usuario pelo ID
     public async obterUsuario(req: Request, res: Response) {
-        try{
+        try {
             const { id } = req.params;
 
-            const usuarioID = await repository.usuario.findUnique({
+            const usuario = await repository.usuario.findUnique({
                 where: {
                     id,
                 },
-            });
+            })
 
-            if(!usuarioID){
-                return erroNaoEncontrado(res, "Usuario");
+            if (!usuario) {
+                return res.status(404).send({
+                    ok: false,
+                    message: "Usuário não encontrado",
+                });
             }
 
             return res.status(200).send({
                 ok: true,
-                message: "Usuário encontrado com sucesso!",
-                data: usuarioID
+                message: "Usuário obtido com sucesso",
+                data: usuario,
             });
-        }
-        catch(error: any) {
-            return erroServidor(res, error);
+        } catch (error: any) {
+            return res.status(500).send({
+                ok: false,
+                message: error.toString(),
+            });
         }
     }
 
-
+    // Atualizar um usuário
     public async atualizarUsuario(req: Request, res: Response) {
-        try{
+        try {
             const { id } = req.params;
             const { nome } = req.body;
 
-            if( !nome ){
+            if (!nome) {
                 return res.status(400).send({
                     ok: false,
-                    message: "Informe um campo para atualizar",
+                    message: "Informe o campo para atualizar",
                 });
-            }
-
-            const usuarioExiste = await repository.usuario.findUnique({
-                where: {
-                    id,
-                },
-            });
-
-            if(!usuarioExiste){
-                return erroNaoEncontrado(res, "Usuario");
             }
 
             const result = await repository.usuario.update({
@@ -84,61 +84,72 @@ export class UsuarioController {
                 data: {
                     nome,
                 },
-            });
+            })
 
             return res.status(200).send({
                 ok: true,
-                message: "Usuário atualizado com sucesso!",
+                message: "Usuário atualizado com sucesso",
                 data: result,
             });
-        }
-        catch(error: any) {
-            return erroServidor(res, error);
+        } catch (error: any) {
+            return res.status(500).send({
+                ok: false,
+                message: error.toString(),
+            });
         }
     }
 
+    // Deletar um usuario
     public async deletarUsuario(req: Request, res: Response) {
-        try{
+        try {
             const { id } = req.params;
 
-            const usuarioExiste = await repository.usuario.findUnique({
+            const usuario = await repository.usuario.findUnique({
                 where: {
                     id,
                 },
-            });
+            })
 
-            if(!usuarioExiste){
-                return erroNaoEncontrado(res, "Usuario");
+            if(!usuario) {
+                return res.status(404).send({
+                    ok: false,
+                    message: "Usuário não encontrado",
+                })
             }
 
             await repository.usuario.delete({
                 where: {
                     id,
                 },
-            });
+            })
+
             return res.status(200).send({
                 ok: true,
-                message: "Usuário deletado com sucesso!",
+                message: "Usuário deletado com sucesso",
             });
-        }
-        catch(error: any) {
-            return erroServidor(res, error);
+        } catch (error: any) {
+            return res.status(500).send({
+                ok: false,
+                message: error.toString(),
+            });
         }
     }
 
-
+    // Listar todos os usuário
     public async listarUsuarios(req: Request, res: Response) {
         try {
-            const usuarios = await repository.usuario.findMany();
+            const result = await repository.usuario.findMany();
 
             return res.status(200).send({
                 ok: true,
-                message: "Todos os usuários",
-                data: usuarios,
+                message: "Usuários listados com sucesso",
+                data: result,
             });
-
         } catch (error: any) {
-            return erroServidor(res, error);
+            return res.status(500).send({
+                ok: false,
+                message: error.toString(),
+            });
         }
     }
 }
