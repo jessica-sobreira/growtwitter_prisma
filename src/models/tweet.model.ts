@@ -5,7 +5,7 @@ export class TweetModel {
 
     constructor(
         public conteudo: string,
-        public tipo: string,
+        public tipo: 'Normal' | 'Reply',
     ) {
         this.id = randomUUID(); 
     }

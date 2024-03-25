@@ -136,6 +136,7 @@ export class TweetController {
                 return erroNaoEncontrado(res, "Tweet");
             }
 
+
             await repository.tweet.delete({
                 where: {
                     id,
