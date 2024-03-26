@@ -27,7 +27,9 @@ export class AuthService {
     
         }
 
-        const token = jwt.sign(usuario, process.env.JWT_SECRET!) 
+        const token = this.generateToken(usuario)
+
+
 
 
         return {
@@ -41,6 +43,12 @@ export class AuthService {
             } 
         }
     } 
+
+    public generateToken(payload: any) {
+        const token = jwt.sign(payload, process.env.JWT_SECRET!) 
+        return token
+
+    }
 
 
 }
