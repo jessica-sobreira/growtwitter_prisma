@@ -18,6 +18,10 @@ export async function validaMiddlewareLogin (req: Request, res: Response, next: 
         const authService = new AuthService()
         const result = await authService.validarLogin(authorization, id)
 
+        if(!result.ok) {
+            return res.status(Number(result.code)).send(result)
+        }
+
         next()
     
     } catch(error: any) {
