@@ -1,6 +1,7 @@
 import repository from "../database/prisma.repository";
 import { Result } from "../contracts/result.contract";
 import jwt from 'jsonwebtoken';
+import { validarLoginDTO } from "../contracts/login.contract";
 
 
 export class AuthService {
@@ -56,7 +57,7 @@ export class AuthService {
 
     public async validarLogin(token: string, idUsuario: string): Promise<Result> {
 
-        const payload = JSON.parse(this.validarToken(token) as string)
+        const payload = this.validarToken(token) as validarLoginDTO
 
         if(idUsuario != payload.id) {
             return {
