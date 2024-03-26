@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import repository from "../database/prisma.repository";
 import { Result } from "../contracts/result.contract";
+import jwt from 'jsonwebtoken';
 
 
 export class AuthService {
@@ -26,17 +27,7 @@ export class AuthService {
     
         }
 
-        const token = randomUUID()
-        
-        await repository.usuario.update({
-            where: {
-                id: usuario.id
-            },
-            data: {
-                token
-
-            }
-        })
+        const token = jwt.sign(usuario, "senhacredencialacesso1234") 
 
 
         return {
