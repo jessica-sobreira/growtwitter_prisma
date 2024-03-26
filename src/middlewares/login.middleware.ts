@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { AuthService } from "../services/auth.service";
 
 export async function validaMiddlewareLogin (req: Request, res: Response, next: NextFunction) {
 
@@ -13,6 +14,9 @@ export async function validaMiddlewareLogin (req: Request, res: Response, next: 
                 message: "Token de autenticação não foi informado"
             })
         }
+
+        const authService = new AuthService()
+        const result = await authService.validarLogin(authorization, id)
 
         next()
     
