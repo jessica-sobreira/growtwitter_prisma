@@ -27,7 +27,7 @@ export class AuthService {
     
         }
 
-        const token = jwt.sign(usuario, "senhacredencialacesso1234") 
+        const token = jwt.sign(usuario, process.env.JWT_SECRET!) 
 
 
         return {
