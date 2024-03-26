@@ -16,10 +16,10 @@ app.use(cors());
 
 app.use("/", usuarioRoutes()); 
 app.use("/", authRoutes());
-app.use("/tweet", tweetRoutes());
-app.use("/like", likeRoutes());
-app.use("/seguidor", seguidorRoutes());
-app.use("/reply", replyRoutes());
+app.use("/", tweetRoutes());
+app.use("/", likeRoutes());
+app.use("/", seguidorRoutes());
+app.use("/", replyRoutes());
 
 app.listen(process.env.PORT, () => {
     console.log("API está rodando!");

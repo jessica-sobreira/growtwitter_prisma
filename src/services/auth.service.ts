@@ -44,22 +44,11 @@ export class AuthService {
         }
     } 
 
-    public generateToken(payload: any) {
-        const token = jwt.sign(payload, process.env.JWT_SECRET!) 
-        return token
-
-    }
-
-    public validarToken(token: string) {
-        const payload = jwt.verify(token, process.env.JWT_SECRET!)
-        return payload 
-    }
-
     public async validarLogin(token: string, idUsuario: string): Promise<Result> {
 
         const payload = this.validarToken(token) as validarLoginDTO
 
-        if(idUsuario != payload.id) {
+        if(payload == null || idUsuario != payload.id) {
             return {
                 ok: false,
                 message: "Token de autenticação inválido",
@@ -74,8 +63,22 @@ export class AuthService {
             code: 200
         }
 
+    }
 
+    public generateToken(payload: any) {
+        const token = jwt.sign(payload, process.env.JWT_SECRET!) 
+        return token
 
+    }
+
+    public validarToken(token: string) {
+        try{
+            const payload = jwt.verify(token, process.env.JWT_SECRET!)
+            return payload 
+        
+        } catch(error: any) {
+            return null
+        }
     }
 
 
