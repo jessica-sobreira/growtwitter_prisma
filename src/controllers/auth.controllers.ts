@@ -73,6 +73,7 @@ import { Request, Response } from "express";
 import { camposNaoInformados, erroServidor } from "../util/response.helper";
 import repository from "../database/prisma.repository";
 import { randomUUID } from "crypto";
+import { AuthService } from "../services/auth.service";
 
 export class AuthController {
 
@@ -84,46 +85,12 @@ export class AuthController {
                 return camposNaoInformados(res);
             }
 
-            const usuario = await repository.usuario.findFirst({
-                where: {
-                    email,
-                    senha,
-                },
-                select: {
-                    id: true,
-                    nome: true,
-                },
-            });
+            const authService = new AuthService()
+            const result = await authService.login(email, senha)
 
-            if(!usuario){
-                return res.status(401).send({
-                    ok: false,
-                    message: "Credenciais inválidas",
-                });
-            }
+            return res.status(result.code).send(result)
 
-            const token = randomUUID();
-
-            await repository.usuario.update({
-                where: {
-                    id: usuario.id,
-                },
-                data: {
-                    token,
-                },
-            });
-
-            return res.status(200).send({
-                ok: true,
-                message: "Login realizado com sucesso!",
-                data: {
-                    id: usuario.id,
-                    nome: usuario.nome,
-                    token,
-                }
-            });
-        } 
-        catch(error: any) {
+            }catch(error: any) {
             return erroServidor(res, error);
         }
     }
