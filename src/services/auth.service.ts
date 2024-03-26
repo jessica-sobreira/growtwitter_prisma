@@ -1,4 +1,3 @@
-import { randomUUID } from "crypto";
 import repository from "../database/prisma.repository";
 import { Result } from "../contracts/result.contract";
 import jwt from 'jsonwebtoken';
@@ -47,6 +46,34 @@ export class AuthService {
     public generateToken(payload: any) {
         const token = jwt.sign(payload, process.env.JWT_SECRET!) 
         return token
+
+    }
+
+    public validarToken(token: string) {
+        const payload = jwt.verify(token, process.env.JWT_SECRET!)
+        return payload 
+    }
+
+    public async validarLogin(token: string, idUsuario: string): Promise<Result> {
+
+        const payload = JSON.parse(this.validarToken(token) as string)
+
+        if(idUsuario != payload.id) {
+            return {
+                ok: false,
+                message: "Token de autenticação inválido",
+                code: 401
+            }
+            
+        }
+
+        return {
+            ok: true,
+            message: "Validação de login feita com sucesso!",
+            code: 200
+        }
+
+
 
     }
 
