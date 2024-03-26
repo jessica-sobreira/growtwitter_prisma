@@ -1,13 +1,6 @@
 import { randomUUID } from "crypto";
 import repository from "../database/prisma.repository";
-
-
-export interface Result {
-    ok: boolean;
-    message: string;
-    code: number;
-    data?: any;
-}
+import { Result } from "../contracts/result.contract";
 
 
 export class AuthService {

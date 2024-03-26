@@ -74,6 +74,7 @@ import { camposNaoInformados, erroServidor } from "../util/response.helper";
 import repository from "../database/prisma.repository";
 import { randomUUID } from "crypto";
 import { AuthService } from "../services/auth.service";
+import { Result } from "../contracts/result.contract";
 
 export class AuthController {
 
@@ -86,9 +87,9 @@ export class AuthController {
             }
 
             const authService = new AuthService()
-            const result = await authService.login(email, senha)
+            const result: Result = await authService.login(email, senha)
 
-            return res.status(result.code).send(result)
+            return res.status(Number(result.code)).send(result)
 
             }catch(error: any) {
             return erroServidor(res, error);
