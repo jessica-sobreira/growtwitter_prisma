@@ -2,7 +2,17 @@ import { Request, Response } from "express";
 import { UsuarioService } from "../services/usuario.service";
 import repository from "../database/prisma.repository";
 
+
+
 export class UsuarioController {
+
+    /**
+     * Rota para criar o usuário.
+     * Colocar no body nome, email e senha.
+     * 
+     * 
+     * @author Jessica
+     */
 
     public async criarUsuario(req: Request, res: Response) {
         try {
@@ -17,6 +27,13 @@ export class UsuarioController {
 
 
             const usuarioService = new UsuarioService();
+
+            /**
+             * Informações que precisam ser inseridas no body.
+             * 
+             * @author Jessica
+             * 
+             */
 
             const result = await usuarioService.criar({
                 nome,

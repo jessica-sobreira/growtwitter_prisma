@@ -9,7 +9,12 @@ export function usuarioRoutes(){
 
     const usuarioController = new UsuarioController();
 
-    // Rotas de usuário
+    /**
+     * No Growtwitter, esta é a rota para criar um usuário. 
+     * Precisa inserir nome, email e senha no body.
+     * @author Jessica
+     * 
+     */
     router.post("/usuario", usuarioController.criarUsuario);
     router.get("/:id", usuarioController.obterUsuario);
     router.put("/:id", [validaMiddlewareLogin], usuarioController.atualizarUsuario);

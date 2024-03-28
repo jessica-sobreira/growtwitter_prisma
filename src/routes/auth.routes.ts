@@ -8,7 +8,11 @@ export function authRoutes(){
 
     const authController = new AuthController();
 
-    //rota para autenticar
+/**
+ * Aqui é a rota para fazer o login. 
+ * Precisa inserir email e senha no body.
+ * @author Jessica
+ */
     router.post("/login", authController.login);
 
     return router;

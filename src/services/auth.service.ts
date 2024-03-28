@@ -6,6 +6,21 @@ import { validarLoginDTO } from "../contracts/login.contract";
 
 export class AuthService {
 
+        /**
+         * Realizar uma autenticação na API de login com email e senha.
+         * 
+            ```typescript
+            const authService = new AuthService();
+            const result = await authService({
+                email: "bart@email.com",
+                senha: "1234",
+            });
+        
+            ```
+     * 
+     * @author Jessica
+     */
+
     public async login(email: string, senha: string): Promise<Result> {
         const usuario = await repository.usuario.findFirst({
             where: {

@@ -4,6 +4,24 @@ import repository from "../database/prisma.repository";
 import { UsuarioModel } from "../models/usuario.model";
 
 export class UsuarioService {
+
+   /**
+    * Para criar um usuário:
+    * ```typescript
+    * const usuarioService = new UsuarioService();
+    * const result = await usuarioService({
+    *   nome: "Bart Simpson",
+    *   email: "bart@email.com",
+        senha: "1234",
+    * 
+    * })
+    * ```
+    * 
+    * @author Jessica
+    */
+
+
+
     public async criar(data: CriarUsuarioDTO): Promise<Result> {
         const resultValidacao = this.validarCamposCriar(data);
         if (!resultValidacao.ok) {
@@ -34,13 +52,6 @@ export class UsuarioService {
             };
         }
 
-        // if (!data.email.includes("@")) {
-        //     return {
-        //         ok: false,
-        //         message: "E-mail informado é inválido",
-        //         code: 400,
-        //     };
-        // }
 
         return {
             ok: true,
