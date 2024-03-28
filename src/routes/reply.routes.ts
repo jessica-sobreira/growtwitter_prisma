@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { ReplyController } from "../controllers/reply.controller";
-// import { validarAcesso } from "../middlewares/usuario.middleware";
+
 
 export function replyRoutes(){
     const router = Router({
@@ -9,10 +9,9 @@ export function replyRoutes(){
 
     const replyController = new ReplyController();
 
-    //rotas reply
-    // router.post("/reply", [validarAcesso], replyController.criarReply);
 
-    router.post("/reply", replyController.criarReply);
+    router.post("/usuario/:id/reply/:idTweet", replyController.criarReply);
+
 
     return router;
 
