@@ -9,7 +9,7 @@ export function seguidorRoutes(){
 
     const seguidorController = new SeguidorController();
 
-    // Rotas seguidores
+
     router.post("/usuario/:id/seguir/:id", seguidorController.seguirUsuario);
     router.get("/usuario/:id/seguidores/:id", seguidorController.listarSeguidores);
 
