@@ -3,7 +3,7 @@ import { erroServidor, erroNaoEncontrado } from "../util/response.helper";
 import { LikeService } from "../services/like.service";
 
 export class LikeController {
-    private likeService: LikeService;
+    public likeService: LikeService;
 
     constructor() {
         this.likeService = new LikeService();

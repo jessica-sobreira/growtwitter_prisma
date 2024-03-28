@@ -3,7 +3,7 @@ import { erroServidor } from "../util/response.helper";
 import { ReplyService } from "../services/reply.service";
 
 export class ReplyController {
-    private replyService: ReplyService;
+    public replyService: ReplyService;
 
     constructor() {
         this.replyService = new ReplyService();
