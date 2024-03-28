@@ -2,14 +2,9 @@ import { Request, Response } from "express";
 import { camposNaoInformados, erroServidor } from "../util/response.helper";
 import { Result } from "../contracts/result.contract";
 import { TweetService } from "../services/tweet.service";
+import { TweetType } from "../models/tweet.model";
 
 export class TweetController {
-
-    public tweetService: TweetService;
-
-    constructor() {
-        this.tweetService = new TweetService();
-    }
 
     public async criarTweet(req: Request, res: Response) {
         try {
@@ -20,7 +15,9 @@ export class TweetController {
                 return camposNaoInformados(res);
             }
 
-            const result: Result = await this.tweetService.criarTweet(conteudo, tipo);
+            const tweetService = new TweetService();
+
+            const result: Result = await tweetService.criarTweet(conteudo, tipo as TweetType, id);
 
             return res.status(Number(result.code)).send(result);
 
@@ -33,7 +30,9 @@ export class TweetController {
         try {
             const { id } = req.params;
 
-            const result: Result = await this.tweetService.listarTweets(id);
+            const tweetService = new TweetService();
+
+            const result: Result = await tweetService.listarTweets(id); 
 
             return res.status(Number(result.code)).send(result);
 
@@ -51,7 +50,9 @@ export class TweetController {
                 return camposNaoInformados(res);
             }
 
-            const result: Result = await this.tweetService.atualizarTweet(id, conteudo);
+            const tweetService = new TweetService();
+
+            const result: Result = await tweetService.atualizarTweet(id, conteudo);
 
             return res.status(Number(result.code)).send(result);
 
@@ -64,7 +65,9 @@ export class TweetController {
         try {
             const { id } = req.params;
 
-            const result: Result = await this.tweetService.deletarTweet(id);
+            const tweetService = new TweetService();
+
+            const result: Result = await tweetService.deletarTweet(id);
 
             return res.status(Number(result.code)).send(result);
 

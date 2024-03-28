@@ -1,55 +1,34 @@
 import { Result } from "../contracts/result.contract";
 import repository from "../database/prisma.repository";
+import { TweetType } from "../models/tweet.model";
 
 export class TweetService {
 
-    public async criarTweet(conteudo: string, tipo: 'Normal' | 'Reply'): Promise<Result> {
+    public async criarTweet(conteudo: string, tipo: TweetType, idUsuario: string): Promise<Result> {
         try {
-            const tweet = await repository.tweet.findFirst({
-                where: {
-                    conteudo,
-                    tipo
-                },
-                select: {
-                    idUsuario: true,
-                    conteudo: true
-                }
-            });
-
-            if (!tweet) {
+            // Verifica se o conteúdo foi informado
+            if (!conteudo) {
                 return {
                     ok: false,
                     message: "Conteúdo não informado",
-                    code: 401,
+                    code: 400,
                 };
             }
 
-            const usuario = await repository.usuario.findUnique({
-                where: {
-                    id: tweet.idUsuario,
-                },
-            });
-
-            if (!usuario) {
-                return {
-                    ok: false,
-                    message: "Usuário não encontrado",
-                    code: 404,
-                };
-            }
-
+            // Cria um novo tweet associado ao usuário
             const novoTweet = await repository.tweet.create({
                 data: {
                     conteudo,
                     tipo,
                     usuario: {
                         connect: {
-                            id: usuario.id
+                            id: idUsuario
                         }
                     }
                 }
             });
 
+            // Retorna o resultado da operação
             return {
                 ok: true,
                 message: "Tweet criado com sucesso!",
@@ -57,6 +36,7 @@ export class TweetService {
             };
 
         } catch (error: any) {
+            // Se ocorrer um erro inesperado, lança uma exceção
             throw new Error(error);
         }
     }

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { TweetController } from "../controllers/tweet.controller";
+import { validaMiddlewareLogin } from "../middlewares/login.middleware";
 // import { validarAcesso } from "../middlewares/usuario.middleware";
 
 export function tweetRoutes(){
@@ -15,7 +16,7 @@ export function tweetRoutes(){
     // router.put("/tweet/:id", [validarAcesso], tweetController.atualizarTweet);
     // router.delete("/tweet/:id", [validarAcesso], tweetController.deletarTweet);
 
-    router.post("/tweet", tweetController.criarTweet);
+    router.post("/usuario/:id/tweet", [validaMiddlewareLogin], tweetController.criarTweet);
     router.get("/usuario/:id/tweet", tweetController.listarTweets);
     router.put("/tweet/:id", tweetController.atualizarTweet);
     router.delete("/tweet/:id", tweetController.deletarTweet);

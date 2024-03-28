@@ -16,7 +16,7 @@ app.use(cors());
 
 app.use("/", usuarioRoutes()); 
 app.use("/", authRoutes());
-app.use("/tweet", tweetRoutes());
+app.use("/", tweetRoutes());
 app.use("/", likeRoutes());
 app.use("/", seguidorRoutes());
 app.use("/", replyRoutes());

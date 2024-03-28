@@ -34,13 +34,13 @@ export class UsuarioService {
             };
         }
 
-        if (!data.email.includes("@")) {
-            return {
-                ok: false,
-                message: "E-mail informado é inválido",
-                code: 400,
-            };
-        }
+        // if (!data.email.includes("@")) {
+        //     return {
+        //         ok: false,
+        //         message: "E-mail informado é inválido",
+        //         code: 400,
+        //     };
+        // }
 
         return {
             ok: true,
