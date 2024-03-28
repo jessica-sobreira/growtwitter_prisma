@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { SeguidorController } from "../controllers/seguidores.controller";
-// import { validarAcesso } from "../middlewares/usuario.middleware";
+
 
 export function seguidorRoutes(){
     const router = Router({
@@ -9,16 +9,9 @@ export function seguidorRoutes(){
 
     const seguidorController = new SeguidorController();
 
-    //rotas seguidores
-    // router.post("/seguidor", [validarAcesso], seguidorController.seguirUsuario);
-    // router.get("/seguidores/:id", [validarAcesso], seguidorController.listarSeguidores);
-
-    router.post("/seguidor", seguidorController.seguirUsuario);
-    router.get("/seguidores/:id", seguidorController.listarSeguidores);
-
-
-
+    // Rotas seguidores
+    router.post("/usuario/:id/seguir/:id", seguidorController.seguirUsuario);
+    router.get("/usuario/:id/seguidores/:id", seguidorController.listarSeguidores);
 
     return router;
-
 }
