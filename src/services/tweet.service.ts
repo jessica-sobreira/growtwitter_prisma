@@ -1,25 +1,16 @@
 import { Result } from "../contracts/result.contract";
 import repository from "../database/prisma.repository";
-import { TweetType } from "../models/tweet.model";
+import { TweetModel, TweetType } from "../models/tweet.model";
 
 export class TweetService {
 
-    public async criarTweet(conteudo: string, tipo: TweetType, idUsuario: string): Promise<Result> {
+    public async criarTweet(content: string, tipo: TweetType, idUsuario: string): Promise<Result> {
         try {
-
-            if (!conteudo) {
-                return {
-                    ok: false,
-                    message: "Conteúdo não informado",
-                    code: 400,
-                };
-            }
-
-
-            const novoTweet = await repository.tweet.create({
+            const tweet = new TweetModel(content, tipo); 
+            const result = await repository.tweet.create({
                 data: {
-                    conteudo,
-                    tipo,
+                    conteudo: tweet.conteudo,
+                    tipo: tweet.tipo,
                     usuario: {
                         connect: {
                             id: idUsuario
@@ -27,17 +18,18 @@ export class TweetService {
                     }
                 }
             });
-
             return {
                 ok: true,
+                code: 200,
                 message: "Tweet criado com sucesso!",
-                code: 200,    
-                data: novoTweet,
+                data: result
             };
-
         } catch (error: any) {
-
-            throw new Error(error);
+            return {
+                ok: false,
+                code: 500,
+                message: error.toString(),
+            };
         }
     }
 
