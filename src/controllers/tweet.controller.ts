@@ -19,7 +19,7 @@ export class TweetController {
 
             const result: Result = await tweetService.criarTweet(conteudo, tipo as TweetType, id);
 
-            return res.status(Number(result.code)).send(result);
+            return res.status(result.code).send(result);
 
         } catch (error: any) {
             return erroServidor(res, error);
@@ -34,7 +34,7 @@ export class TweetController {
 
             const result: Result = await tweetService.listarTweets(id); 
 
-            return res.status(Number(result.code)).send(result);
+            return res.status(result.code).send(result);
 
         } catch (error: any) {
             return erroServidor(res, error);
@@ -54,7 +54,7 @@ export class TweetController {
 
             const result: Result = await tweetService.atualizarTweet(id, conteudo);
 
-            return res.status(Number(result.code)).send(result);
+            return res.status(result.code).send(result);
 
         } catch (error: any) {
             return erroServidor(res, error);
@@ -69,7 +69,7 @@ export class TweetController {
 
             const result: Result = await tweetService.deletarTweet(id);
 
-            return res.status(Number(result.code)).send(result);
+            return res.status(result.code).send(result);
 
         } catch (error: any) {
             return erroServidor(res, error);

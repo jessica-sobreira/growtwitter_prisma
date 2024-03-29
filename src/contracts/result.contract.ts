@@ -2,6 +2,6 @@
 export interface Result {
     ok: boolean;
     message: string;
-    code?: number;
+    code: number;
     data?: any;
 }

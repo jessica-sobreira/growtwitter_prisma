@@ -6,7 +6,7 @@ export class TweetService {
 
     public async criarTweet(conteudo: string, tipo: TweetType, idUsuario: string): Promise<Result> {
         try {
-            // Verifica se o conteúdo foi informado
+
             if (!conteudo) {
                 return {
                     ok: false,
@@ -15,7 +15,7 @@ export class TweetService {
                 };
             }
 
-            // Cria um novo tweet associado ao usuário
+
             const novoTweet = await repository.tweet.create({
                 data: {
                     conteudo,
@@ -28,15 +28,15 @@ export class TweetService {
                 }
             });
 
-            // Retorna o resultado da operação
             return {
                 ok: true,
                 message: "Tweet criado com sucesso!",
+                code: 200,    
                 data: novoTweet,
             };
 
         } catch (error: any) {
-            // Se ocorrer um erro inesperado, lança uma exceção
+
             throw new Error(error);
         }
     }
@@ -60,6 +60,7 @@ export class TweetService {
             return {
                 ok: true,
                 message: "Tweets encontrados com sucesso!",
+                code: 200,
                 data: tweets,
             };
 
@@ -104,6 +105,7 @@ export class TweetService {
             return {
                 ok: true,
                 message: "Tweet atualizado com sucesso!",
+                code: 200,
                 data: result,
             };
 
@@ -137,6 +139,7 @@ export class TweetService {
             return {
                 ok: true,
                 message: "Tweet deletado com sucesso!",
+                code: 200,
             };
 
         } catch (error: any) {
