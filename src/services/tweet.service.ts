@@ -10,6 +10,14 @@ export class TweetService {
      * @param type
      * @param id
      * 
+     * COLOQUE NO BODY
+     * ```typescript
+     * {
+     * "conteudo: "tweetar algo aqui",
+     * "tipo: "Normal",
+     * }
+     * ```
+     * 
      * @author Jessica 
      * 
      */
@@ -41,6 +49,8 @@ export class TweetService {
             };
         }
     }
+
+    
 
     public async listarTweets(id: string): Promise<Result> {
         try {
