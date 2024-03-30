@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "ts-node-dev --respawn ./src/index.ts",
     "postinstall": "tsc",
-    "start": "node ./build/index.js"
+    "start": "node ./build/index.js",
+    "test": "jest -silent -noStackTrace -runInBand",
+    "test:verbose": "jest -verbose -runInBand -detectOpenHandles",
+    "test:coverage": "jest -runInBand -coverage",
+    "test:watch": "jest -silent -noStackTrace -runInBand -watchAll"
   },
   "keywords": [],
   "author": "Jessica Sobreira",
