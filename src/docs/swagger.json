@@ -1,0 +1,114 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "GrowTwitter",
+      "description": "API para o projeto GrowTwitter",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/usuario": {
+        "post": {
+          "tags": [
+            "Usuario"
+          ],
+          "summary": "Criar um novo usuário",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "201": {
+              "description": "Criado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Usuario"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Erro ao criar o usuário"
+            },
+            "500": {
+              "description": "Erro interno"
+            }
+          }
+        }
+      },
+      "/login": {
+        "post": {
+          "tags": [
+            "Login"
+          ],
+          "summary": "Login de usuário",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Credenciais"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Login efetuado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Erro ao efetuar o login"
+            },
+            "500": {
+              "description": "Erro interno"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Usuario": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "nome": {
+              "type": "string"
+            }
+          }
+        },
+        "Credenciais": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+  

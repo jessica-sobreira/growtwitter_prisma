@@ -6,9 +6,7 @@ export class TweetService {
 
     /**
      * Cria um tweet
-     * @param content
-     * @param type
-     * @param id
+     * 
      * 
      * COLOQUE NO BODY
      * ```typescript
