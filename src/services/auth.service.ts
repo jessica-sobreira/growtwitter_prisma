@@ -17,9 +17,14 @@ export class AuthService {
             });
         
             ```
-     * 
-     * @author Jessica
-     */
+
+         * @param email
+         * @param senha
+         * 
+         * 
+         * 
+         * @author Jessica
+         */
 
     public async login(email: string, senha: string): Promise<Result> {
         const usuario = await repository.usuario.findFirst({

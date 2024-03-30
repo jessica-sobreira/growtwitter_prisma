@@ -4,6 +4,15 @@ import { TweetModel, TweetType } from "../models/tweet.model";
 
 export class TweetService {
 
+    /**
+     * Cria um tweet
+     * @param content
+     * @param type
+     * @param id
+     * 
+     * @author Jessica 
+     * 
+     */
     public async criarTweet(content: string, tipo: TweetType, idUsuario: string): Promise<Result> {
         try {
             const tweet = new TweetModel(content, tipo); 
@@ -57,7 +66,11 @@ export class TweetService {
             };
 
         } catch (error: any) {
-            throw new Error(error);
+            return {
+                ok: false,
+                code: 500,
+                message: error.toString(),
+            };
         }
     }
 
@@ -68,20 +81,6 @@ export class TweetService {
                     ok: false,
                     message: "Conteúdo não informado",
                     code: 400,
-                };
-            }
-
-            const tweet = await repository.tweet.findUnique({
-                where: {
-                    id,
-                },
-            });
-
-            if (!tweet) {
-                return {
-                    ok: false,
-                    message: "Tweet não encontrado",
-                    code: 404,
                 };
             }
 
@@ -102,27 +101,17 @@ export class TweetService {
             };
 
         } catch (error: any) {
-            throw new Error(error);
+            return {
+                ok: false,
+                code: 500,
+                message: error.toString(),
+            };
         }
     }
 
     public async deletarTweet(id: string): Promise<Result> {
         try {
-            const tweet = await repository.tweet.findUnique({
-                where: {
-                    id,
-                },
-            });
-
-            if (!tweet) {
-                return {
-                    ok: false,
-                    message: "Tweet não encontrado",
-                    code: 404,
-                };
-            }
-
-            await repository.tweet.delete({
+            const result = await repository.tweet.delete({
                 where: {
                     id,
                 },
@@ -132,10 +121,15 @@ export class TweetService {
                 ok: true,
                 message: "Tweet deletado com sucesso!",
                 code: 200,
+                data: result,
             };
 
         } catch (error: any) {
-            throw new Error(error);
+            return {
+                ok: false,
+                code: 500,
+                message: error.toString(),
+            };
         }
     }
 }
