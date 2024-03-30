@@ -11,7 +11,7 @@
           "tags": [
             "Usuario"
           ],
-          "summary": "Criar um novo usuário",
+          "summary": "Criar um usuário",
           "requestBody": {
             "content": {
               "application/json": {
@@ -24,7 +24,7 @@
           },
           "responses": {
             "201": {
-              "description": "Criado com sucesso",
+              "description": "Usuário criado com sucesso",
               "content": {
                 "application/json": {
                   "schema": {
