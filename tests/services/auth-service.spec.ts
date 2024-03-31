@@ -15,9 +15,5 @@ describe("Testes da classe AuthService", () => {
         expect(result.message).toBe("Credenciais inválidas");
     });
 
-    
 
-})
-
-    
-        
+    })
