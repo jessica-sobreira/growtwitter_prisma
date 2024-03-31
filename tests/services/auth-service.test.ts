@@ -33,3 +33,5 @@ describe("Testes da classe AuthService", () => {
         expect(result.message).toBe("Login realizado com sucesso");
     });
 });
+
+

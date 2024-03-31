@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1711909933416" clover="3.2.0">
-  <project timestamp="1711909933416" name="All files">
+<coverage generated="1711912428928" clover="3.2.0">
+  <project timestamp="1711912428929" name="All files">
     <metrics statements="18" coveredstatements="3" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0" elements="26" coveredelements="3" complexity="0" loc="18" ncloc="18" packages="1" files="1" classes="1"/>
     <file name="auth.service.ts" path="C:\Users\aaa\growtwitter_prisma\src\services\auth.service.ts">
       <metrics statements="18" coveredstatements="3" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0"/>
