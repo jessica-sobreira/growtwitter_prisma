@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1711909933416" clover="3.2.0">
+  <project timestamp="1711909933416" name="All files">
+    <metrics statements="18" coveredstatements="3" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0" elements="26" coveredelements="3" complexity="0" loc="18" ncloc="18" packages="1" files="1" classes="1"/>
+    <file name="auth.service.ts" path="C:\Users\aaa\growtwitter_prisma\src\services\auth.service.ts">
+      <metrics statements="18" coveredstatements="3" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="30" count="0" type="stmt"/>
+      <line num="41" count="0" type="cond" truecount="0" falsecount="1"/>
+      <line num="42" count="0" type="stmt"/>
+      <line num="50" count="0" type="stmt"/>
+      <line num="55" count="0" type="stmt"/>
+      <line num="69" count="0" type="stmt"/>
+      <line num="71" count="0" type="cond" truecount="0" falsecount="3"/>
+      <line num="72" count="0" type="stmt"/>
+      <line num="80" count="0" type="stmt"/>
+      <line num="89" count="0" type="stmt"/>
+      <line num="90" count="0" type="stmt"/>
+      <line num="95" count="0" type="stmt"/>
+      <line num="96" count="0" type="stmt"/>
+      <line num="97" count="0" type="stmt"/>
+      <line num="100" count="0" type="stmt"/>
+    </file>
+  </project>
+</coverage>
