@@ -14,5 +14,16 @@ describe("Testes integrados para a criação de um usuário", () => {
         expect(response.status).toBe(404);
     });
 
-});
+    test("Deve retornar 404 caso email não seja informado", async () => {
+        const sut = createApp();
+        const response = await supertest(sut).post("/usuario").send({
 
+            nome: "nome",
+            senha: "123456",
+        })
+
+        expect(response.status).toBe(404);
+    
+    })
+
+});

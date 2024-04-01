@@ -25,6 +25,23 @@ export class UsuarioController {
                 });
             }
 
+            if(!email) {
+                return res.status(404).send({
+                    ok: false,
+                    message: "Email não foi informado",
+                })
+
+            }
+
+            if(!senha) {
+                return res.status(404).send({
+                    ok: false,
+                    message: "Senha não foi informada",
+
+                })
+            }
+
+
 
             const usuarioService = new UsuarioService();
 
