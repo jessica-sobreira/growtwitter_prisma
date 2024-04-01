@@ -19,7 +19,7 @@ export class UsuarioController {
             const { nome, email, senha } = req.body;
 
             if (!nome) {
-                return res.status(400).send({
+                return res.status(404).send({
                     ok: false,
                     message: "Nome não foi informado",
                 });
